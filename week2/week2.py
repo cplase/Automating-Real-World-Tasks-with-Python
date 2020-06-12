@@ -6,6 +6,8 @@ import re
 import logging
 import sys
 
+logging.basicConfig(level=logging.DEBUG, format='%(levelname)s %(asctime)s %(message)s')
+
 def get_directory(argv):
     logging.debug('Determining if argv is empty of is not a valid directory')
     if not argv:
