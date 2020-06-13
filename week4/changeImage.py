@@ -6,7 +6,7 @@ import sys
 import logging
 import re
 
-def process_images(files):
+def process_images(files, directory):
     """Accepts a list of files and process them."""
     if not files:
         raise ValueError("There are no images in the directory")
@@ -17,20 +17,15 @@ def process_images(files):
                 "Attmpting to process {}...".format(file)
             )
             im = Image.open(file)
-            im.verify()
         except:
             logging.debug("File is not an image")
             continue
         logging.debug("File is an image")
-        save_location = "~/supplier-data/images"
-        new_file_name = os.path.join(
-            save_location,
-            "{}.jpeg".format(
-                (re.search(r'^([\w\-\_]+)', im.filename)).group(0))
-        )
+        file_name = (re.search(r"([\w\-\_]+)\.tiff$", file)).group(1)
+        new_file_name = os.path.join(directory, "{}.jpeg".format(file_name))
         logging.debug("Converting {} to RGB and resizing to 600px by 400px".format(im.filename))
+        im.convert("RGB")
         im = im.resize((600, 400))
-        im = im.convert("RGB")
         logging.debug("Saving new image {}".format(new_file_name))
         im.save(new_file_name, "JPEG", quality=100)
 
@@ -47,7 +42,7 @@ def process_files(directory):
     logging.debug("List of files in directory: {}".format(files))
     if not files:
         raise ValueError("There are no files in the directory")
-    process_images(files)
+    process_images(files, directory)
 
 def check_directory(argv):
     """Checks the argument, validates it is a valid directory, and then
