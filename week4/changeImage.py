@@ -29,8 +29,8 @@ def process_images(files):
                 (re.search(r'^([\w\-\_]+)', im.filename)).group(0))
         )
         logging.debug("Converting {} to RGB and resizing to 600px by 400px".format(im.filename))
-        im = im.convert("RGB")
         im = im.resize((600, 400))
+        im = im.convert("RGB")
         logging.debug("Saving new image {}".format(new_file_name))
         im.save(new_file_name, "JPEG", quality=100)
 
