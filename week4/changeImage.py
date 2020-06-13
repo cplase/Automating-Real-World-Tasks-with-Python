@@ -42,7 +42,7 @@ def process_files(directory):
     files = [
         os.path.join(directory, f)
         for f in os.listdir(directory)
-        if os.path.isfile(f)
+        if os.path.isfile(os.path.join(directory, f))
         ]
     logging.debug("List of files in directory: {}".format(files))
     if not files:
